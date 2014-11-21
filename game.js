@@ -2,13 +2,14 @@ const CHUNK_SIZE = 16;
 
 var mapWorker = new Worker("mapWorker.js");
 var position = {x:0,y:0}
+var div = document.getElementsByTagName("div")[0];
 
 function color(n) {
-	return "rgb(" + n + "," + n + "," + n + ")";
+	return "rgb(" + (127 - n) + "," + n + "," + (255 - n) + ")";
 }
 
 mapWorker.onmessage = function (e) {
-	var result = "\n";
+	var result = "";
 	for (var i = 0; i < CHUNK_SIZE; i++) {
 		for (var j = 0; j < CHUNK_SIZE; j++) {
 			var value = e.data[i * CHUNK_SIZE + j];
@@ -20,7 +21,7 @@ mapWorker.onmessage = function (e) {
 		}
 		result += "<br>";
 	}
-	document.body.innerHTML = result;
+	div.innerHTML = result;
 };
 
 document.addEventListener("keydown", function (e) {
@@ -43,3 +44,5 @@ document.addEventListener("keydown", function (e) {
 		mapWorker.postMessage(position);
 	}
 }, false);
+
+mapWorker.postMessage(position);
