@@ -1,27 +1,9 @@
-const CHUNK_SIZE = 16;
-
 var mapWorker = new Worker("mapWorker.js");
 var position = {x:0,y:0}
 var div = document.getElementsByTagName("div")[0];
 
-function color(n) {
-	return "rgb(" + (127 - n) + "," + n + "," + (255 - n) + ")";
-}
-
 mapWorker.onmessage = function (e) {
-	var result = "";
-	for (var i = 0; i < CHUNK_SIZE; i++) {
-		for (var j = 0; j < CHUNK_SIZE; j++) {
-			var value = e.data[i * CHUNK_SIZE + j];
-			var str = value.toString(10);
-			while (str.length < 3) {
-				str = "0" + str;			
-			}
-			result += "<span style=\"color:" + color(value) + ";\"> " + str + "</span>";
-		}
-		result += "<br>";
-	}
-	div.innerHTML = result;
+	div.innerHTML = e.data;
 };
 
 document.addEventListener("keydown", function (e) {
