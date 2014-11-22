@@ -18,10 +18,10 @@ self.onmessage = function (e) {
 	for (var i = 0; i < CHUNK_SIZE; i++) {
 		for (var j = 0; j < CHUNK_SIZE; j++) {
 			var x = (j + e.data.x) / 8, y = (i - e.data.y) / 8;
-			var value = noise(x,y);
+			var value = noise(x/16,y/16);
 			var str = value.toString(10);
 			while (str.length < 3) {
-				str += "0";			
+				str = "0" + str;			
 			}
 			result.push("<span style=\"color:" + color(value) + ";\"> " + str + "</span>");
 		}
